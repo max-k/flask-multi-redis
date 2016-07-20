@@ -15,7 +15,7 @@ max_lines_per_file = 1000
 ci_keywords = FIXME, pdb.set_trace()
 cs_keywords =
 
-ignore_regex = {.+}|redis.io|max-k  # for InvalidLinkBear
+ignore_regex = {.+}|redis.io  # for InvalidLinkBear
 
 shortlog_length = 72
 
