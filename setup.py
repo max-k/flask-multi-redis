@@ -9,6 +9,7 @@ with io.open('HISTORY.rst', encoding='utf-8') as f:
     HISTORY = f.read()
 
 DESC = "MultiThreaded and MultiServers Redis Extension for Flask Applications"
+LICENSE = "GNU Affero General Public License v3 or later (AGPLv3+)"
 
 setup(
     name='Flask-Multi-Redis',
@@ -34,7 +35,7 @@ setup(
         'Environment :: Web Environment',
         'Framework :: Flask',
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: GNU Affero GPL v3 or later (AGPLv3+)',
+        'License :: OSI Approved :: {}'.format(LICENSE),
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2',
