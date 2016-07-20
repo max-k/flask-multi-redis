@@ -8,6 +8,7 @@ with io.open('README.rst', encoding='utf-8') as f:
 with io.open('HISTORY.rst', encoding='utf-8') as f:
     HISTORY = f.read()
 
+desc='MultiThreaded and MultiServers Redis Extension for Flask Applications'
 
 setup(
     name='Flask-Multi-Redis',
@@ -18,7 +19,7 @@ setup(
     maintainer='Thomas Sarboni',
     maintainer_email='max-k@post.com',
     download_url='https://github.com/max-k/flask-multi-redis/releases',
-    description='MultiThreaded and MultiServers Redis Extension for Flask Applications',
+    description=desc,
     long_description=README + '\n\n' + HISTORY,
     packages=['flask_multi_redis'],
     package_data={'': ['LICENSE']},
@@ -33,7 +34,7 @@ setup(
         'Environment :: Web Environment',
         'Framework :: Flask',
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)',
+        'License :: OSI Approved :: GNU Affero GPL v3 or later (AGPLv3+)',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2',

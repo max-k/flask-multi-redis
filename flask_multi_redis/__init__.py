@@ -35,9 +35,9 @@ class Aggregator(object):
             worker = Thread(target=target, args=(node, pattern), kwargs=kwargs)
             worker.start()
             threads.append({
-                               'worker': worker,
-                               'timeout': node._config['socket_timeout']
-                           })
+                'worker': worker,
+                'timeout': node._config['socket_timeout']
+            })
         for thread in threads:
             thread['worker'].join(thread['timeout'])
         while not self._output_queue.empty():
@@ -45,7 +45,7 @@ class Aggregator(object):
             self._output_queue.task_done()
             results.append(item)
         if results != []:
-            return(results)
+            return results
 
     def get(self, pattern):
         def _get(node, pattern):
@@ -78,8 +78,8 @@ class Aggregator(object):
     def __getattr__(self, name):
         try:
             if name == '_redis_client':
-                node = self._redis_nodes[randint(0, len(self._redis_nodes)-1)]
-                return getattr(node, name)
+                rnd = randint(0, len(self._redis_nodes) - 1)
+                return getattr(self._redis_nodes[rnd], name)
             return getattr(self, name)
         except:
             message = '{} is not implemented yet.\n'.format(name)
@@ -191,20 +191,20 @@ class FlaskMultiRedis(object):
         )
 
         default_conf = {
-                           'port': redis_default_port,
-                           'db': redis_default_db,
-                           'password': redis_default_password,
-                           'socket_timeout': redis_default_socket_timeout,
-                           'ssl': redis_default_ssl
-                       }
+            'port': redis_default_port,
+            'db': redis_default_db,
+            'password': redis_default_password,
+            'socket_timeout': redis_default_socket_timeout,
+            'ssl': redis_default_ssl
+        }
 
         for redis_node in redis_nodes:
-            config = {
-                         'node': redis_node,
-                         'default': default_conf
-                     }
-            nd = RedisNode(self.provider_class, config, **self.provider_kwargs)
-            self._redis_nodes.append(nd)
+            conf = {
+                'node': redis_node,
+                'default': default_conf
+            }
+            nod = RedisNode(self.provider_class, conf, **self.provider_kwargs)
+            self._redis_nodes.append(nod)
 
         if self._strategy == 'aggregate':
             self._aggregator = Aggregator(self._redis_nodes)
@@ -219,8 +219,8 @@ class FlaskMultiRedis(object):
         if self._strategy == 'aggregate':
             return getattr(self._aggregator, name)
         else:
-            node = self._redis_nodes[randint(0, len(self._redis_nodes)-1)]
-            return getattr(node, name)
+            rnd = randint(0, len(self._redis_nodes) - 1)
+            return getattr(self._redis_nodes[rnd], name)
 
     def __getitem__(self, name):
         if len(self._redis_nodes) == 0:
