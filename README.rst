@@ -9,8 +9,8 @@ Flask-Multi-Redis
    :target: https://codecov.io/gh/max-k/flask-multi-redis
    :alt: Coverage Status
 
-.. image:: https://landscape.io/github/max-k/flask-redis/master/landscape.svg?style=flat
-   :target: https://landscape.io/github/max-k/flask-redis
+.. image:: https://landscape.io/github/max-k/flask-multi-redis/master/landscape.svg?style=flat
+   :target: https://landscape.io/github/max-k/flask-multi-redis
    :alt: Code Health
 
 Adds Redis support to Flask with fail-over or aggregation capabilities.
