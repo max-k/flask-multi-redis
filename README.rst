@@ -6,7 +6,7 @@ Flask-Multi-Redis
    :alt: Test Suite
 
 .. image:: https://codecov.io/gh/max-k/flask-multi-redis/branch/master/graph/badge.svg
-   :target: https://coveralls.io/gh/max-k/flask-multi-redis
+   :target: https://codecov.io/gh/max-k/flask-multi-redis
    :alt: Coverage Status
 
 .. image:: https://landscape.io/github/max-k/flask-redis/master/landscape.svg?style=flat
