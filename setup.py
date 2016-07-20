@@ -12,7 +12,7 @@ desc='MultiThreaded and MultiServers Redis Extension for Flask Applications'
 
 setup(
     name='Flask-Multi-Redis',
-    version='0.0.1',
+    version='0.0.2',
     url='https://github.com/max-k/flask-multi-redis',
     author='Thomas Sarboni',
     author_email='max-k@post.com',
