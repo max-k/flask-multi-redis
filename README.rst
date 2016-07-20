@@ -2,7 +2,7 @@ Flask-Multi-Redis
 =================
 
 .. image:: https://api.travis-ci.org/max-k/flask-multi-redis.svg?branch=master
-   :target: https://travis-ci.org/underyx/flask-multi-redis
+   :target: https://travis-ci.org/max-k/flask-multi-redis
    :alt: Test Suite
 
 .. image:: https://codecov.io/gh/max-k/flask-multi-redis/branch/master/graph/badge.svg
