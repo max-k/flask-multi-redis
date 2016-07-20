@@ -66,7 +66,7 @@ class Aggregator(object):
         return sorted(list(unique_everseen(self._runner(_keys, pattern))))
 
     def set(self, key, pattern, **kwargs):
-        def _set(node, pattern, key=key, ex=None, px=None, nx=False, xx=False):
+        def _set(node, pattern, key=key, **kwargs):
             node.set(key, pattern, **kwargs)
         return self._runner(_set, pattern, **kwargs)
 
