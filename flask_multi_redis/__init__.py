@@ -67,7 +67,7 @@ class Aggregator(object):
 
     def set(self, key, pattern, **kwargs):
         def _set(node, pattern, key=key, ex=None, px=None, nx=False, xx=False):
-            node.set(key, pattern)
+            node.set(key, pattern, **kwargs)
         return self._runner(_set, pattern, **kwargs)
 
     def delete(self, pattern):
