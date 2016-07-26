@@ -3,15 +3,23 @@ Flask-Multi-Redis
 
 .. image:: https://api.travis-ci.org/max-k/flask-multi-redis.svg?branch=master
    :target: https://travis-ci.org/max-k/flask-multi-redis
-   :alt: Test Suite
+   :alt: Travis CI Status
 
 .. image:: https://codecov.io/gh/max-k/flask-multi-redis/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/max-k/flask-multi-redis
-   :alt: Coverage Status
+   :alt: Codecov Coverage Status
+
+.. image:: https://api.codacy.com/project/badge/Coverage/aac58b911e074237ab13a029e8a433eb
+   :target: https://www.codacy.com/app/max-k/flask-multi-redis
+   :alt: Codacy Coverage Status
+
+.. image:: https://api.codacy.com/project/badge/Grade/aac58b911e074237ab13a029e8a433eb
+   :target: https://www.codacy.com/app/max-k/flask-multi-redis
+   :alt: Codacy Code Grade
 
 .. image:: https://landscape.io/github/max-k/flask-multi-redis/master/landscape.svg?style=flat
    :target: https://landscape.io/github/max-k/flask-multi-redis
-   :alt: Code Health
+   :alt: Landscape Code Health
 
 Adds Redis support to Flask with fail-over or aggregation capabilities.
 
