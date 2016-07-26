@@ -21,13 +21,18 @@ Flask-Multi-Redis
    :target: https://landscape.io/github/max-k/flask-multi-redis
    :alt: Landscape Code Health
 
+
+.. image:: https://img.shields.io/pypi/implementation/Flask-Multi-Redis.svg
+   :target: https://pypi.python.org/pypi/Flask-Multi-Redis
+   :alt: Python Implementation
+
 .. image:: https://img.shields.io/pypi/v/Flask-Multi-Redis.svg
    :target: https://pypi.python.org/pypi/Flask-Multi-Redis
-   :alt: PyPI Version
+   :alt: Python Version
 
 .. image:: https://img.shields.io/pypi/pyversions/Flask-Multi-Redis.svg
    :target: https://pypi.python.org/pypi/Flask-Multi-Redis
-   :alt: PyPI Version
+   :alt: Release Version
 
 .. image:: https://img.shields.io/badge/license-aGPLv3+%20License-blue.svg
    :target: https://www.gnu.org/licenses/agpl-3.0.html
