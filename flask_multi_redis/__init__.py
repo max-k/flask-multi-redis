@@ -36,7 +36,7 @@ class Aggregator(object):
             worker.start()
             threads.append({
                 'worker': worker,
-                'timeout': node._config['socket_timeout']
+                'timeout': node.config['socket_timeout']
             })
         for thread in threads:
             thread['worker'].join(thread['timeout'])
@@ -90,37 +90,37 @@ class Aggregator(object):
 class RedisNode(object):
 
     def __init__(self, provider_class, config, **kwargs):
-        self._config = {}
+        self.config = {}
         self._ssl = None
         self.provider_class = provider_class
         self._parse_conf(config)
         self._parse_ssl_conf(config)
-        self._config.update(kwargs)
-        self._redis_client = self.provider_class(**self._config)
+        self.config.update(kwargs)
+        self._redis_client = self.provider_class(**self.config)
 
     def _parse_conf(self, config):
         assert 'host' in config['node']
 
-        self._config['host'] = config['node']['host']
-        self._config['port'] = config['default']['port']
-        self._config['db'] = config['default']['db']
-        self._config['password'] = config['default']['password']
-        self._config['socket_timeout'] = config['default']['socket_timeout']
+        self.config['host'] = config['node']['host']
+        self.config['port'] = config['default']['port']
+        self.config['db'] = config['default']['db']
+        self.config['password'] = config['default']['password']
+        self.config['socket_timeout'] = config['default']['socket_timeout']
 
         if 'port' in config['node']:
-            self._config['port'] = config['node']['port']
+            self.config['port'] = config['node']['port']
         if 'db' in config['node']:
-            self._config['db'] = config['node']['db']
+            self.config['db'] = config['node']['db']
         if 'password' in config['node']:
-            self._config['password'] = config['node']['password']
+            self.config['password'] = config['node']['password']
         if 'timeout' in config['node']:
-            self._config['socket_timeout'] = config['node']['timeout']
+            self.config['socket_timeout'] = config['node']['timeout']
 
     def _parse_ssl_conf(self, config):
-        self._config['ssl'] = False
+        self.config['ssl'] = False
 
         if 'ssl' in config['default']:
-            self._config['ssl'] = True
+            self.config['ssl'] = True
             self._ssl = config['default']['ssl']
         if 'ssl' in config['node']:
             if not self._ssl:
@@ -128,7 +128,7 @@ class RedisNode(object):
             for key in config['node']['ssl']:
                 self._ssl[key] = config['node']['ssl'][key]
         if self._ssl:
-            self._config.update(self._ssl)
+            self.config.update(self._ssl)
 
     def __getattr__(self, name):
         return getattr(self._redis_client, name)
