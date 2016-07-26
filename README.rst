@@ -1,6 +1,8 @@
 Flask-Multi-Redis
 =================
 
+*CI Status*
+
 .. image:: https://api.travis-ci.org/max-k/flask-multi-redis.svg?branch=master
    :target: https://travis-ci.org/max-k/flask-multi-redis
    :alt: Travis CI Status
@@ -38,6 +40,8 @@ Flask-Multi-Redis
 .. image:: https://img.shields.io/badge/license-aGPLv3+%20License-blue.svg
    :target: https://www.gnu.org/licenses/agpl-3.0.html
    :alt: License aGPLv3+
+
+----
 
 Adds Redis support to Flask with fail-over or aggregation capabilities.
 
