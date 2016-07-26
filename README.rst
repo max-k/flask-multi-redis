@@ -39,8 +39,6 @@ Flask-Multi-Redis
    :target: https://www.gnu.org/licenses/agpl-3.0.html
    :alt: License aGPLv3+
 
-----
-
 Adds Redis support to Flask with fail-over or aggregation capabilities.
 
 Mostly inspired by these projects :
