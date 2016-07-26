@@ -1,10 +1,6 @@
 Flask-Multi-Redis
 =================
 
-.. |br| raw:: html
-
-   <br />
-
 .. image:: https://api.travis-ci.org/max-k/flask-multi-redis.svg?branch=master
    :target: https://travis-ci.org/max-k/flask-multi-redis
    :alt: Travis CI Status
@@ -25,7 +21,7 @@ Flask-Multi-Redis
    :target: https://landscape.io/github/max-k/flask-multi-redis
    :alt: Landscape Code Health
 
-|br|
+<br />
 
 .. image:: https://img.shields.io/pypi/v/Flask-Multi-Redis.svg
    :target: https://pypi.python.org/pypi/Flask-Multi-Redis
