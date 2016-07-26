@@ -21,9 +21,7 @@ Flask-Multi-Redis
    :target: https://landscape.io/github/max-k/flask-multi-redis
    :alt: Landscape Code Health
 
-.. raw:: html
-
-   <hr />
+----
 
 .. image:: https://img.shields.io/pypi/v/Flask-Multi-Redis.svg
    :target: https://pypi.python.org/pypi/Flask-Multi-Redis
@@ -40,6 +38,8 @@ Flask-Multi-Redis
 .. image:: https://img.shields.io/badge/license-aGPLv3+%20License-blue.svg
    :target: https://www.gnu.org/licenses/agpl-3.0.html
    :alt: License aGPLv3+
+
+----
 
 Adds Redis support to Flask with fail-over or aggregation capabilities.
 
