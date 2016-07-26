@@ -10,11 +10,11 @@ Flask-Multi-Redis
    :alt: Codecov Coverage Status
 
 .. image:: https://api.codacy.com/project/badge/Coverage/aac58b911e074237ab13a029e8a433eb
-   :target: https://www.codacy.com/app/max-k/flask-multi-redis
+   :target: https://www.codacy.com/app/max-k/flask-multi-redis/dashboard
    :alt: Codacy Coverage Status
 
 .. image:: https://api.codacy.com/project/badge/Grade/aac58b911e074237ab13a029e8a433eb
-   :target: https://www.codacy.com/app/max-k/flask-multi-redis
+   :target: https://www.codacy.com/app/max-k/flask-multi-redis/dashboard
    :alt: Codacy Code Grade
 
 .. image:: https://landscape.io/github/max-k/flask-multi-redis/master/landscape.svg?style=flat
