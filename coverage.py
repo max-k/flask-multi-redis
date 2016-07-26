@@ -3,10 +3,10 @@
 from os import environ
 from subprocess import call
 
-commands = ['python-codacy-coverage -r coverage.xml',
-            'codecov -e TOXENV']
+commands = [['python-codacy-coverage', '-r', 'coverage.xml'],
+            ['/usr/bin/env', 'codecov', '-e', 'TOXENV']]
 
 if __name__ == '__main__':
     if 'TRAVIS' in environ:
-        rc = call('coveralls')
-        raise SystemExit(rc)
+        for command in commands:
+            rc = call(command)
