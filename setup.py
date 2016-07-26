@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+
+""" FlaskMultiRedis deployment configuration """
+
 import io
 
 from setuptools import setup

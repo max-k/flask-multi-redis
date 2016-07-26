@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+
+""" Main flask-multi-redis module """
+
 from random import randint
 from sys import version_info
 from threading import Thread
@@ -23,6 +27,7 @@ __version__ = '0.0.1'
 
 
 class Aggregator(object):
+    """ Reimplement Redis commands with aggregation from multiple servers """
 
     def __init__(self, redis_nodes):
         self._output_queue = queue.Queue()
@@ -48,6 +53,7 @@ class Aggregator(object):
             return results
 
     def get(self, pattern):
+        """ Aggregated get method """
         def _get(node, pattern):
             result = node.get(pattern)
             if result:
@@ -58,6 +64,7 @@ class Aggregator(object):
             return results[-1][0]
 
     def keys(self, pattern):
+        """ Aggregated keys method """
         def _keys(node, pattern):
             results = node.keys(pattern)
             for result in results:
@@ -66,11 +73,13 @@ class Aggregator(object):
         return sorted(list(unique_everseen(self._runner(_keys, pattern))))
 
     def set(self, key, pattern, **kwargs):
+        """ Aggregated set method """
         def _set(node, pattern, key=key, **kwargs):
             node.set(key, pattern, **kwargs)
         return self._runner(_set, pattern, **kwargs)
 
     def delete(self, pattern):
+        """ Aggregated delete method """
         def _delete(node, pattern):
             node.delete(pattern)
         return self._runner(_delete, pattern)
@@ -88,6 +97,7 @@ class Aggregator(object):
 
 
 class RedisNode(object):
+    """ Define a Redis node and its configuration """
 
     def __init__(self, provider_class, config, **kwargs):
         self.config = {}
@@ -135,6 +145,7 @@ class RedisNode(object):
 
 
 class FlaskMultiRedis(object):
+    """ Main Class for FlaskMultiRedis """
 
     def __init__(self, app=None, strict=True,
                  config_prefix='REDIS', strategy='loadbalancing', **kwargs):
@@ -151,6 +162,7 @@ class FlaskMultiRedis(object):
 
     @classmethod
     def from_custom_provider(cls, provider, app=None, **kwargs):
+        """ Create a FlaskMultiRedis instance using a custom Redis provider """
         assert provider is not None, 'your custom provider is None, come on'
 
         # We never pass the app parameter here, so we can call init_app
@@ -163,6 +175,7 @@ class FlaskMultiRedis(object):
         return instance
 
     def init_app(self, app, **kwargs):
+        """ Initialize Flask app and parse configuration """
 
         self.provider_kwargs.update(kwargs)
 
