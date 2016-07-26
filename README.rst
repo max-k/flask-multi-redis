@@ -23,7 +23,7 @@ Flask-Multi-Redis
 
 .. raw:: html
 
-   <br />
+   <hr />
 
 .. image:: https://img.shields.io/pypi/v/Flask-Multi-Redis.svg
    :target: https://pypi.python.org/pypi/Flask-Multi-Redis
