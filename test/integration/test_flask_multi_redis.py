@@ -5,7 +5,6 @@
 
 import flask
 from flask_multi_redis import FlaskMultiRedis
-from mockredis import MockRedis
 import pytest
 
 
