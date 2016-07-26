@@ -21,7 +21,7 @@ Flask-Multi-Redis
    :target: https://landscape.io/github/max-k/flask-multi-redis
    :alt: Landscape Code Health
 
-----
+> 
 
 .. image:: https://img.shields.io/pypi/v/Flask-Multi-Redis.svg
    :target: https://pypi.python.org/pypi/Flask-Multi-Redis
