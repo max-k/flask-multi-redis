@@ -27,9 +27,11 @@ __version__ = '0.0.1'
 
 
 class Aggregator(object):
+
     """Reimplement Redis commands with aggregation from multiple servers."""
 
     def __init__(self, redis_nodes):
+        """Initialize Aggregator."""
         self._output_queue = queue.Queue()
         self._redis_nodes = redis_nodes
 
@@ -97,9 +99,11 @@ class Aggregator(object):
 
 
 class RedisNode(object):
+
     """Define a Redis node and its configuration."""
 
     def __init__(self, provider_class, config, **kwargs):
+        """Initialize RedisNode."""
         self.config = {}
         self._ssl = None
         self.provider_class = provider_class
@@ -145,10 +149,12 @@ class RedisNode(object):
 
 
 class FlaskMultiRedis(object):
+
     """Main Class for FlaskMultiRedis."""
 
     def __init__(self, app=None, strict=True,
                  config_prefix='REDIS', strategy='loadbalancing', **kwargs):
+        """Initialize FlaskMultiRedis."""
         assert strategy in ['loadbalancing', 'aggregate']
         self._redis_nodes = []
         self._strategy = strategy
@@ -176,7 +182,6 @@ class FlaskMultiRedis(object):
 
     def init_app(self, app, **kwargs):
         """Initialize Flask app and parse configuration."""
-
         self.provider_kwargs.update(kwargs)
 
         redis_default_port = app.config.get(
