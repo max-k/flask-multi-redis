@@ -5,7 +5,7 @@ from flask_multi_redis import FlaskMultiRedis
 
 
 def test_constructor_app(mocker):
-    """Test that the constructor passes the app to FlaskMultiRedis.init_app"""
+    """Test that the constructor passes the app to FlaskMultiRedis.init_app."""
     mocker.patch.object(FlaskMultiRedis, 'init_app', autospec=True)
     app_stub = mocker.stub(name='app_stub')
 

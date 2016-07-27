@@ -57,7 +57,7 @@ def app_custom_node():
 
 def test_constructor(app):
     """Test that a constructor with app instance will initialize the
-    connection"""
+    connection."""
     redis = FlaskMultiRedis(app)
     assert redis._redis_client is not None
     assert hasattr(redis._redis_client, 'connection_pool')
@@ -67,8 +67,8 @@ def test_constructor(app):
 
 
 def test_aggregatorstartegy(app):
-    """ Test that a constructor with aggregate strategy will initialize
-    the connection"""
+    """Test that a constructor with aggregate strategy will initialize
+    the connection."""
     redis = FlaskMultiRedis(app, strategy='aggregate')
     assert redis._redis_client is not None
     assert hasattr(redis._redis_client, 'connection_pool')
@@ -88,7 +88,7 @@ def test_init_app(app):
 
 
 def test_custom_prefix(app):
-    """Test that config prefixes enable distinct connections"""
+    """Test that config prefixes enable distinct connections."""
     app.config['DBA_NODES'] = [{'host': 'localhost', 'db': 1}]
     app.config['DBB_NODES'] = [{'host': 'localhost', 'db': 2}]
     redis_a = FlaskMultiRedis(app, config_prefix='DBA')
@@ -112,7 +112,7 @@ def test_strict_parameter(app):
 
 def test_custom_provider(app):
     """Test that FlaskMultiRedis can be instructed to use a different Redis client,
-    like StrictRedis"""
+    like StrictRedis."""
     class FakeProvider(object):
 
         def __init__(self, **kwargs):
@@ -126,7 +126,7 @@ def test_custom_provider(app):
 
 
 def test_custom_default_config(app_custom_default):
-    """Test that we can pass a custom default configuration"""
+    """Test that we can pass a custom default configuration."""
 
     redis = FlaskMultiRedis(app_custom_default)
     assert redis.connection_pool.connection_kwargs['port'] == 16379
@@ -136,7 +136,7 @@ def test_custom_default_config(app_custom_default):
 
 
 def test_custom_default_ssl(app_custom_default_ssl):
-    """Test that we can pass a custom default ssl configuration"""
+    """Test that we can pass a custom default ssl configuration."""
 
     redis = FlaskMultiRedis(app_custom_default_ssl)
     kwargs = redis.connection_pool.connection_kwargs
@@ -147,7 +147,7 @@ def test_custom_default_ssl(app_custom_default_ssl):
 
 
 def test_custom_node(app_custom_node):
-    """Test that we can pass a custom node configuration"""
+    """Test that we can pass a custom node configuration."""
 
     redis = FlaskMultiRedis(app_custom_node)
     kwargs = redis.connection_pool.connection_kwargs

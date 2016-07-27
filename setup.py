@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-""" FlaskMultiRedis deployment configuration """
+"""FlaskMultiRedis deployment configuration."""
 
 import io
 
