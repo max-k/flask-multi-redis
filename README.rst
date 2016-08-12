@@ -11,6 +11,10 @@ Flask-Multi-Redis
    :target: https://codecov.io/gh/max-k/flask-multi-redis
    :alt: Codecov Coverage Status
 
+.. image:: https://coveralls.io/repos/github/max-k/flask-multi-redis/badge.svg
+   :target: https://coveralls.io/github/max-k/flask-multi-redis
+   :alt: Coveralls Coverage Status
+
 .. image:: https://api.codacy.com/project/badge/Coverage/aac58b911e074237ab13a029e8a433eb
    :target: https://www.codacy.com/app/max-k/flask-multi-redis/dashboard
    :alt: Codacy Coverage Status
