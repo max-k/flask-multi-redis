@@ -61,9 +61,9 @@ def test_constructor(app):
     redis = FlaskMultiRedis(app)
     assert redis._redis_client is not None
     assert hasattr(redis._redis_client, 'connection_pool')
-    if hasattr(app, 'extensions'):
-        assert 'redis' in app.extensions
-        assert app.extensions['redis'] == redis
+    assert hasattr(app, 'extensions')
+    assert 'redis' in app.extensions
+    assert app.extensions['redis'] == redis
 
 
 def test_aggregatorstartegy(app):
@@ -72,9 +72,19 @@ def test_aggregatorstartegy(app):
     redis = FlaskMultiRedis(app, strategy='aggregate')
     assert redis._redis_client is not None
     assert hasattr(redis._redis_client, 'connection_pool')
-    if hasattr(app, 'extensions'):
-        assert 'redis' in app.extensions
-        assert app.extensions['redis'] == redis
+    assert hasattr(app, 'extensions')
+    assert 'redis' in app.extensions
+    assert app.extensions['redis'] == redis
+
+
+def test_extension_registration_if_app_has_not_extensions(app):
+    """Test that the constructor is able to register FlaskMultiRedis
+    as an extension even if app has no extensions attribute."""
+    delattr(app, 'extensions')
+    redis = FlaskMultiRedis(app)
+    assert hasattr(app, 'extensions')
+    assert 'redis' in app.extensions
+    assert app.extensions['redis'] == redis
 
 
 def test_init_app(app):
