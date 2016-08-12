@@ -122,6 +122,7 @@ def test_custom_provider(app):
             pass
 
     redis = FlaskMultiRedis.from_custom_provider(FakeProvider)
+    assert isinstance(redis, FlaskMultiRedis)
     assert redis._redis_client is None
     redis.init_app(app)
     assert redis._redis_client is not None
