@@ -129,9 +129,23 @@ def test_custom_provider(app):
     assert isinstance(redis._redis_client, FakeProvider)
 
 
+def test_custom_provider_with_app(app):
+    """Test that FlaskMultiRedis can be instructed to use a different Redis client,
+    using an already existing Flask app."""
+    class FakeProvider(object):
+
+        def __init__(self, **kwargs):
+            pass
+
+    redis = FlaskMultiRedis.from_custom_provider(FakeProvider, app=app)
+    assert isinstance(redis, FlaskMultiRedis)
+    assert redis._redis_client is not None
+    assert isinstance(redis._redis_client, FakeProvider)
+
+
 def test_custom_provider_is_none(app):
     """Test that FlaskMultiRedis cannot be instructed to use a Redis Client
-    wich is None"""
+    wich is None."""
     with pytest.raises(AssertionError) as excinfo:
         FlaskMultiRedis.from_custom_provider(None)
         assert excinfo.value == 'your custom provider is None, come on'
