@@ -128,6 +128,14 @@ def test_custom_provider(app):
     assert isinstance(redis._redis_client, FakeProvider)
 
 
+def test_custom_provider_is_none(app):
+    """Test that FlaskMultiRedis cannot be instructed to use a Redis Client
+    wich is None"""
+    with pytest.raises(AssertionError) as excinfo:
+        FlaskMultiRedis.from_custom_provider(None)
+        assert excinfo.value == 'your custom provider is None, come on'
+
+
 def test_custom_default_config(app_custom_default):
     """Test that we can pass a custom default configuration."""
 
