@@ -4,6 +4,7 @@
 
 import io
 
+from pip.req import parse_requirements
 from setuptools import setup
 
 with io.open('README.rst', encoding='utf-8') as f:
@@ -11,7 +12,10 @@ with io.open('README.rst', encoding='utf-8') as f:
 with io.open('HISTORY.rst', encoding='utf-8') as f:
     HISTORY = f.read()
 
-DESC = "MultiThreaded and MultiServers Redis Extension for Flask Applications"
+install_reqs = parse_requirements('requirements.txt', session=False)
+test_reqs = parse_requirements('test-requirements.txt', session=False)
+
+DESC = "MultiThreaded MultiServers Redis Extension for Flask Applications"
 LICENSE = "GNU Affero General Public License v3 or later (AGPLv3+)"
 
 setup(
@@ -28,11 +32,9 @@ setup(
     packages=['flask_multi_redis'],
     package_data={'': ['LICENSE']},
     zip_safe=False,
-    install_requires=[
-        'Flask>=0.9',
-        'redis>=2.6.8',
-        'more-itertools>=2.1'
-    ],
+    install_requires=[str(ir.req) for ir in install_reqs],
+    setup_requires=['pytest-runner'],
+    tests_require=[str(ir.req) for ir in test_reqs],
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
