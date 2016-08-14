@@ -33,7 +33,7 @@ setup(
     package_data={'': ['LICENSE']},
     zip_safe=False,
     install_requires=[str(ir.req) for ir in install_reqs],
-    setup_requires=['pytest-runner'],
+    setup_requires=['pytest-runner>=2.0,<3dev'],
     tests_require=[str(ir.req) for ir in test_reqs],
     classifiers=[
         'Development Status :: 4 - Beta',
