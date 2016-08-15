@@ -4,16 +4,21 @@
 
 import io
 
-from pip.req import parse_requirements
-from setuptools import setup
+try:
+    from setuptools import setup
+except ImportError:
+    from distutils.core import setup
+
 
 with io.open('README.rst', encoding='utf-8') as f:
     README = f.read()
 with io.open('HISTORY.rst', encoding='utf-8') as f:
     HISTORY = f.read()
 
-install_reqs = parse_requirements('requirements.txt', session=False)
-test_reqs = parse_requirements('test-requirements.txt', session=False)
+with io.open('requirements.txt', encoding='utf-8') as f:
+    install_reqs = f.read().splitlines()
+with io.open('test-requirements.txt', encoding='utf-8') as f:
+    test_reqs = f.read().splitlines()
 
 DESC = "MultiThreaded MultiServers Redis Extension for Flask Applications"
 LICENSE = "GNU Affero General Public License v3 or later (AGPLv3+)"
@@ -30,11 +35,11 @@ setup(
     description=DESC,
     long_description=README + '\n\n' + HISTORY,
     packages=['flask_multi_redis'],
-    package_data={'': ['LICENSE']},
+    #package_data={'': ['LICENSE', 'requirements.txt']},
     zip_safe=False,
-    install_requires=[str(ir.req) for ir in install_reqs],
     setup_requires=['pytest-runner>=2.0,<3dev'],
-    tests_require=[str(ir.req) for ir in test_reqs],
+    install_requires=install_reqs,
+    tests_require=test_reqs,
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
