@@ -66,7 +66,7 @@ def test_constructor(app):
     assert app.extensions['redis'] == redis
 
 
-def test_aggregatorstartegy(app):
+def test_aggregator_strategy(app):
     """Test that a constructor with aggregate strategy will initialize
     the connection."""
     redis = FlaskMultiRedis(app, strategy='aggregate')
