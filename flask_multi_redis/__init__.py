@@ -23,7 +23,7 @@ else:
 
 
 __all__ = ('Aggregator', 'RedisNode', 'FlaskMultiRedis')
-__version__ = '0.0.1'
+__version__ = '0.0.3'
 
 
 class Aggregator(object):
