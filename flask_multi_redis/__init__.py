@@ -88,10 +88,9 @@ class Aggregator(object):
 
     def __getattr__(self, name):
         try:
-            if name == '_redis_client':
+            if name in ['_redis_client', 'connection_pool']:
                 rnd = randint(0, len(self._redis_nodes) - 1)
                 return getattr(self._redis_nodes[rnd], name)
-            return getattr(self, name)
         except:
             message = '{} is not implemented yet.\n'.format(name)
             message += 'Feel free to contribute.'
@@ -156,6 +155,7 @@ class FlaskMultiRedis(object):
                  config_prefix='REDIS', strategy='loadbalancing', **kwargs):
         """Initialize FlaskMultiRedis."""
         assert strategy in ['loadbalancing', 'aggregate']
+        self._app = None
         self._redis_nodes = []
         self._strategy = strategy
         self._aggregator = None
@@ -182,6 +182,7 @@ class FlaskMultiRedis(object):
 
     def init_app(self, app, **kwargs):
         """Initialize Flask app and parse configuration."""
+        self._app = app
         self.provider_kwargs.update(kwargs)
 
         redis_default_port = app.config.get(
@@ -232,7 +233,7 @@ class FlaskMultiRedis(object):
         app.extensions['redis'] = self
 
     def __getattr__(self, name):
-        if name == '_redis_client' and len(self._redis_nodes) == 0:
+        if len(self._redis_nodes) == 0:
             return None
         if self._strategy == 'aggregate':
             return getattr(self._aggregator, name)
@@ -243,14 +244,26 @@ class FlaskMultiRedis(object):
     def __getitem__(self, name):
         if len(self._redis_nodes) == 0:
             return None
-        return self.get(name)
+        if self._strategy == 'aggregate':
+            return self._aggregator.get(name)
+        else:
+            rnd = randint(0, len(self._redis_nodes) - 1)
+            return self._redis_nodes[rnd].get(name)
 
     def __setitem__(self, name, value):
         if len(self._redis_nodes) == 0:
             return
-        return self.set(name, value)
+        if self._strategy == 'aggregate':
+            return self._aggregator.set(name, value)
+        else:
+            rnd = randint(0, len(self._redis_nodes) - 1)
+            return self._redis_nodes[rnd].set(name, value)
 
     def __delitem__(self, name):
         if len(self._redis_nodes) == 0:
             return
-        return self.delete(name)
+        if self._strategy == 'aggregate':
+            return self._aggregator.delete(name)
+        else:
+            for node in self._redis_nodes:
+                node.delete(name)

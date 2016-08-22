@@ -4,8 +4,10 @@
 """Integration tests for Flask-Multi-Redis."""
 
 import flask
+from flask_multi_redis import Aggregator
 from flask_multi_redis import FlaskMultiRedis
 import pytest
+from redis import StrictRedis
 
 
 @pytest.fixture
@@ -14,8 +16,17 @@ def app():
 
 
 @pytest.fixture
-def app_custom_default():
-    app = flask.Flask(__name__)
+def loadbalanced(app):
+    return FlaskMultiRedis(app)
+
+
+@pytest.fixture
+def aggregated(app):
+    return FlaskMultiRedis(app, strategy='aggregate')
+
+
+@pytest.fixture
+def app_custom_default(app):
     app.config['REDIS_DEFAULT_PORT'] = 16379
     app.config['REDIS_DEFAULT_DB'] = 9
     app.config['REDIS_DEFAULT_PASSWORD'] = 'password'
@@ -24,8 +35,7 @@ def app_custom_default():
 
 
 @pytest.fixture
-def app_custom_default_ssl():
-    app = flask.Flask(__name__)
+def app_custom_default_ssl(app):
     app.config['REDIS_DEFAULT_SSL'] = {
                                           'ssl_keyfile': 'ssl/rediskey.pem',
                                           'ssl_certfile': 'ssl/rediscert.pem',
@@ -36,8 +46,7 @@ def app_custom_default_ssl():
 
 
 @pytest.fixture
-def app_custom_node():
-    app = flask.Flask(__name__)
+def app_custom_node(app):
     ssl = {
               'ssl_keyfile': 'ssl/rediskey.pem',
               'ssl_certfile': 'ssl/rediscert.pem',
@@ -55,29 +64,27 @@ def app_custom_node():
     return app
 
 
-def test_constructor(app):
+def test_constructor(loadbalanced):
     """Test that a constructor with app instance will initialize the
     connection."""
-    redis = FlaskMultiRedis(app)
-    assert redis._redis_client is not None
-    assert hasattr(redis._redis_client, 'connection_pool')
-    assert hasattr(app, 'extensions')
-    assert 'redis' in app.extensions
-    assert app.extensions['redis'] == redis
+    assert loadbalanced._redis_client is not None
+    assert hasattr(loadbalanced._redis_client, 'connection_pool')
+    assert hasattr(loadbalanced._app, 'extensions')
+    assert 'redis' in loadbalanced._app.extensions
+    assert loadbalanced._app.extensions['redis'] is loadbalanced
 
 
-def test_aggregator_strategy(app):
+def test_aggregator_strategy(aggregated):
     """Test that a constructor with aggregate strategy will initialize
     the connection."""
-    redis = FlaskMultiRedis(app, strategy='aggregate')
-    assert redis._redis_client is not None
-    assert hasattr(redis._redis_client, 'connection_pool')
-    assert hasattr(app, 'extensions')
-    assert 'redis' in app.extensions
-    assert app.extensions['redis'] == redis
+    assert aggregated._redis_client is not None
+    assert hasattr(aggregated._redis_client, 'connection_pool')
+    assert hasattr(aggregated._app, 'extensions')
+    assert 'redis' in aggregated._app.extensions
+    assert aggregated._app.extensions['redis'] == aggregated
 
 
-def test_extension_registration_if_app_has_not_extensions(app):
+def test_extension_registration_if_app_has_no_extensions(app):
     """Test that the constructor is able to register FlaskMultiRedis
     as an extension even if app has no extensions attribute."""
     delattr(app, 'extensions')
@@ -94,8 +101,10 @@ def test_init_app(app):
     After FlaskMultiRedis.init_app(app) is called, the connection will be
     initialized."""
     redis = FlaskMultiRedis()
+    assert redis._app is None
     assert len(redis._redis_nodes) == 0
     redis.init_app(app)
+    assert redis._app is app
     assert len(redis._redis_nodes) == 1
     assert hasattr(redis._redis_client, 'connection_pool')
 
@@ -195,3 +204,33 @@ def test_custom_node(app_custom_node):
     assert kwargs['ssl_certfile'] == 'ssl/rediscert.pem'
     assert kwargs['ssl_ca_certs'] == 'ssl/rediscert.pem'
     assert kwargs['ssl_cert_reqs'] == 'required'
+
+
+def test_attributes_transmission_from_loadbalanced_node(loadbalanced):
+    """Test that attributes from loadbalanced nodes are
+    available directly from FlaskMultiRedis object."""
+
+    node = loadbalanced._redis_nodes[0]
+    assert loadbalanced.connection_pool is node.connection_pool
+
+
+def test_attributes_transmission_from_aggregated_node(aggregated):
+    """Test that attributes from aggregated nodes are
+    available directly from FlaskMultiRedis object."""
+
+    node = aggregated._aggregator._redis_nodes[0]
+    assert aggregated.connection_pool is node.connection_pool
+
+
+def test_methods_transmission_from_aggregator(aggregated):
+    """Test that methods from aggregator are available
+    directly from FlaskMultiRedis object (aggregate)."""
+
+    assert isinstance(aggregated.keys.__self__, Aggregator)
+
+
+def test_methods_transmission_from_redis(loadbalanced):
+    """Test that methods from redis are available
+    direcly from FlaskMultiRedis object (loadbalancing)."""
+
+    assert isinstance(loadbalanced.keys.__self__, StrictRedis)
