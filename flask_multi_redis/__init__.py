@@ -93,7 +93,7 @@ class Aggregator(object):
             rnd = randint(0, len(self._redis_nodes) - 1)
             return getattr(self._redis_nodes[rnd], name)
         else:
-            message = '{} is not implemented yet.'.format(name)
+            message = '{0} is not implemented yet.'.format(name)
             message += ' Feel free to contribute.'
             raise NotImplementedError(message)
 
