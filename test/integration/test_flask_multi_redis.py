@@ -222,11 +222,11 @@ def test_attributes_transmission_from_aggregated_node(aggregated):
     assert aggregated.connection_pool is node.connection_pool
 
 
-def test_methods_transmission_from_aggregator(aggregated):
-    """Test that methods from aggregator are available
-    directly from FlaskMultiRedis object (aggregate)."""
-
-    assert isinstance(aggregated.keys.__self__, Aggregator)
+def test_attributes_transmission_if_aggregated_has_no_host(aggregated):
+    """Test that attributes transmission return None if Aggregator
+    has an empty node list."""
+    aggregated._aggregator._redis_nodes = []
+    assert aggregated._redis_client is None
 
 
 def test_methods_transmission_from_redis(loadbalanced):
@@ -234,6 +234,13 @@ def test_methods_transmission_from_redis(loadbalanced):
     direcly from FlaskMultiRedis object (loadbalancing)."""
 
     assert isinstance(loadbalanced.keys.__self__, StrictRedis)
+
+
+def test_methods_transmission_from_aggregator(aggregated):
+    """Test that methods from aggregator are available
+    directly from FlaskMultiRedis object (aggregate)."""
+
+    assert isinstance(aggregated.keys.__self__, Aggregator)
 
 
 def test_transmission_of_not_implemented_method(aggregated):
