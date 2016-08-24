@@ -78,6 +78,11 @@ def fake_node():
             if int(self.name[-1]) == 3:
                 return None
             return int(self.name[-1])
+
+        def keys(self, pattern):
+            if int(self.name[-1]) == 3:
+                return [self.name, pattern]
+            return [pattern]
     return Node
 
 
@@ -298,3 +303,9 @@ def test_aggregator_get_method(mocked_aggregated):
     """Test aggregator get method."""
 
     assert mocked_aggregated.get('pattern') == 'node2'
+
+
+def test_aggregator_keys_method(mocked_aggregated):
+    """Test aggregator keys method."""
+
+    assert mocked_aggregated.keys('pattern') == ['node3', 'pattern']

@@ -68,8 +68,7 @@ class Aggregator(object):
     def keys(self, pattern):
         """Aggregated keys method."""
         def _keys(node, pattern):
-            results = node.keys(pattern)
-            for result in results:
+            for result in node.keys(pattern):
                 self._output_queue.put(result)
         # return list(OrderedDict.fromkeys(self._runner(_keys, pattern)))
         return sorted(list(unique_everseen(self._runner(_keys, pattern))))
