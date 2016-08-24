@@ -86,6 +86,9 @@ def fake_node():
 
         def set(self, key, pattern):
             setattr(self, key, pattern)
+
+        def delete(self, pattern):
+            delattr(self, 'name')
     return Node
 
 
@@ -320,3 +323,11 @@ def test_aggregator_set_method(mocked_aggregated):
     mocked_aggregated.set('value', 'pattern')
     for node in mocked_aggregated._aggregator._redis_nodes:
         assert node.value == 'pattern'
+
+
+def test_aggregator_delete_method(mocked_aggregated):
+    """Test aggregator delete method."""
+
+    mocked_aggregated.delete('pattern')
+    for node in mocked_aggregated._aggregator._redis_nodes:
+        assert not hasattr(node, 'name')
