@@ -70,7 +70,25 @@ def fake_node():
         def __init__(self, name):
             self.config = {'socket_timeout': 2}
             self.name = name
+
+        def get(self, pattern):
+            return self.name
+
+        def ttl(self, pattern):
+            if int(self.name[-1]) == 3:
+                return None
+            return int(self.name[-1])
     return Node
+
+
+@pytest.fixture
+def mocked_aggregated(aggregated, fake_node):
+    aggregated._aggregator._redis_nodes = [
+                                              fake_node('node1'),
+                                              fake_node('node2'),
+                                              fake_node('node3')
+                                          ]
+    return aggregated
 
 
 def test_constructor(loadbalanced):
@@ -264,19 +282,19 @@ def test_transmission_of_not_implemented_method(aggregated):
     assert ' '.join(str(e).split(' ')[1:]) == message
 
 
-def test_task_runner(aggregated, fake_node):
-    """Test task runner in nominal operation"""
-
-    aggregated._aggregator._redis_nodes = [
-                                              fake_node('node1'),
-                                              fake_node('node2'),
-                                              fake_node('node3')
-                                          ]
+def test_task_runner(mocked_aggregated):
+    """Test task runner in nominal operations."""
 
     def task(node, pattern, aggregator):
         if node.name != 'node2':
             aggregator._output_queue.put(pattern)
 
-    kwargs = {'aggregator': aggregated._aggregator}
-    result = aggregated._aggregator._runner(task, 'pattern', **kwargs)
+    kwargs = {'aggregator': mocked_aggregated._aggregator}
+    result = mocked_aggregated._aggregator._runner(task, 'pattern', **kwargs)
     assert result == ['pattern', 'pattern']
+
+
+def test_aggregator_get_method(mocked_aggregated):
+    """Test aggregator get method."""
+
+    assert mocked_aggregated.get('pattern') == 'node2'

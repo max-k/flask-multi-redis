@@ -63,7 +63,7 @@ class Aggregator(object):
         results = self._runner(_get, pattern)
         if results:
             results.sort(key=lambda t: t[0])
-            return results[-1][0]
+            return results[-1][1]
 
     def keys(self, pattern):
         """Aggregated keys method."""
