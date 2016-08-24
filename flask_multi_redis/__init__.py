@@ -87,13 +87,14 @@ class Aggregator(object):
         return self._runner(_delete, pattern)
 
     def __getattr__(self, name):
-        try:
-            if name in ['_redis_client', 'connection_pool']:
-                rnd = randint(0, len(self._redis_nodes) - 1)
-                return getattr(self._redis_nodes[rnd], name)
-        except:
-            message = '{} is not implemented yet.\n'.format(name)
-            message += 'Feel free to contribute.'
+        if name in ['_redis_client', 'connection_pool']:
+            if len(self._redis_nodes) == 0:
+                return None
+            rnd = randint(0, len(self._redis_nodes) - 1)
+            return getattr(self._redis_nodes[rnd], name)
+        else:
+            message = '{} is not implemented yet.'.format(name)
+            message += ' Feel free to contribute.'
             raise NotImplementedError(message)
 
 

@@ -234,3 +234,14 @@ def test_methods_transmission_from_redis(loadbalanced):
     direcly from FlaskMultiRedis object (loadbalancing)."""
 
     assert isinstance(loadbalanced.keys.__self__, StrictRedis)
+
+
+def test_transmission_of_not_implemented_method(aggregated):
+    """Test that trying to access a not implemented method
+    will properly raise an exception."""
+
+    with pytest.raises(NotImplementedError) as e:
+        aggregated.mget
+    message = 'NotImplementedError: mget is not implemented yet.'
+    message += ' Feel free to contribute.'
+    assert ' '.join(str(e).split(' ')[1:]) == message
