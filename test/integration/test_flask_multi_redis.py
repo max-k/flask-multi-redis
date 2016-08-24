@@ -83,6 +83,9 @@ def fake_node():
             if int(self.name[-1]) == 3:
                 return [self.name, pattern]
             return [pattern]
+
+        def set(self, key, pattern):
+            setattr(self, key, pattern)
     return Node
 
 
@@ -309,3 +312,11 @@ def test_aggregator_keys_method(mocked_aggregated):
     """Test aggregator keys method."""
 
     assert mocked_aggregated.keys('pattern') == ['node3', 'pattern']
+
+
+def test_aggregator_set_method(mocked_aggregated):
+    """Test aggregator set method."""
+
+    mocked_aggregated.set('value', 'pattern')
+    for node in mocked_aggregated._aggregator._redis_nodes:
+        assert node.value == 'pattern'
