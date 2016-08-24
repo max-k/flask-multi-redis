@@ -64,6 +64,15 @@ def app_custom_node(app):
     return app
 
 
+@pytest.fixture
+def fake_node():
+    class Node(object):
+        def __init__(self, name):
+            self.config = {'socket_timeout': 2}
+            self.name = name
+    return Node
+
+
 def test_constructor(loadbalanced):
     """Test that a constructor with app instance will initialize the
     connection."""
@@ -249,6 +258,25 @@ def test_transmission_of_not_implemented_method(aggregated):
 
     with pytest.raises(NotImplementedError) as e:
         aggregated.mget
+
     message = 'NotImplementedError: mget is not implemented yet.'
     message += ' Feel free to contribute.'
     assert ' '.join(str(e).split(' ')[1:]) == message
+
+
+def test_task_runner(aggregated, fake_node):
+    """Test task runner in nominal operation"""
+
+    aggregated._aggregator._redis_nodes = [
+                                              fake_node('node1'),
+                                              fake_node('node2'),
+                                              fake_node('node3')
+                                          ]
+
+    def task(node, pattern, aggregator):
+        if node.name != 'node2':
+            aggregator._output_queue.put(pattern)
+
+    kwargs = {'aggregator': aggregated._aggregator}
+    result = aggregated._aggregator._runner(task, 'pattern', **kwargs)
+    assert result == ['pattern', 'pattern']
