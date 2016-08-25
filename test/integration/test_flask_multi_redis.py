@@ -357,3 +357,22 @@ def test_aggregated_getitem_method(mocked_aggregated):
     assert mocked_aggregated['pattern'] == 'node2'
     mocked_aggregated._aggregator._redis_nodes = []
     assert mocked_aggregated['pattern'] is None
+
+
+def test_loadbalanced_setitem_method(mocked_loadbalanced):
+    """Test FlaskMultiRedis loadbalanced __setitem__ method."""
+
+    mocked_loadbalanced['name'] = 'node0'
+    assert 'node0' in [x.name for x in mocked_loadbalanced._redis_nodes]
+    mocked_loadbalanced._redis_nodes = []
+    mocked_loadbalanced['name'] = 'node0'
+
+
+def test_aggregated_setitem_method(mocked_aggregated):
+    """Test FlaskMultiRedis aggregated __setitem__ method."""
+
+    mocked_aggregated['name'] = 'node0'
+    nodes = mocked_aggregated._aggregator._redis_nodes
+    assert [x.name for x in nodes] == ['node0', 'node0', 'node0']
+    mocked_aggregated._aggregator._redis_nodes = []
+    mocked_aggregated['name'] = 'node0'
