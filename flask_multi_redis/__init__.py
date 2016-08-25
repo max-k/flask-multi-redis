@@ -159,7 +159,9 @@ class FlaskMultiRedis(object):
         self._redis_nodes = []
         self._strategy = strategy
         self._aggregator = None
-        self.provider_class = redis.StrictRedis if strict else redis.Redis
+        self.provider_class = None
+        if redis:
+            self.provider_class = redis.StrictRedis if strict else redis.Redis
         self.provider_kwargs = kwargs
         self.config_prefix = config_prefix
 
