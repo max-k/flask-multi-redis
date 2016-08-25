@@ -376,3 +376,23 @@ def test_aggregated_setitem_method(mocked_aggregated):
     assert [x.name for x in nodes] == ['node0', 'node0', 'node0']
     mocked_aggregated._aggregator._redis_nodes = []
     mocked_aggregated['name'] = 'node0'
+
+
+def test_loadbalanced_delitem_method(mocked_loadbalanced):
+    """Test FlaskMultiRedis loadbalanced __delitem__ method."""
+
+    del(mocked_loadbalanced['name'])
+    for node in mocked_loadbalanced._redis_nodes:
+        assert not hasattr(node, 'name')
+    mocked_loadbalanced._redis_nodes = []
+    del(mocked_loadbalanced['name'])
+
+
+def test_aggregated_delitem_method(mocked_aggregated):
+    """Test FlaskMultiRedis aggregated __delitem__ method."""
+
+    del(mocked_aggregated['name'])
+    for node in mocked_aggregated._aggregator._redis_nodes:
+        assert not hasattr(node, 'name')
+    mocked_aggregated._aggregator._redis_nodes = []
+    del(mocked_aggregated['name'])
