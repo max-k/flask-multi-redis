@@ -93,6 +93,16 @@ def fake_node():
 
 
 @pytest.fixture
+def mocked_loadbalanced(loadbalanced, fake_node):
+    loadbalanced._redis_nodes = [
+                                    fake_node('node1'),
+                                    fake_node('node2'),
+                                    fake_node('node3')
+                                ]
+    return loadbalanced
+
+
+@pytest.fixture
 def mocked_aggregated(aggregated, fake_node):
     aggregated._aggregator._redis_nodes = [
                                               fake_node('node1'),
@@ -331,3 +341,19 @@ def test_aggregator_delete_method(mocked_aggregated):
     mocked_aggregated.delete('pattern')
     for node in mocked_aggregated._aggregator._redis_nodes:
         assert not hasattr(node, 'name')
+
+
+def test_loadbalanced_getitem_method(mocked_loadbalanced):
+    """Test FlaskMultiRedis loadbalanced __getitem__ method."""
+
+    assert mocked_loadbalanced['pattern'] in ['node1', 'node2', 'node3']
+    mocked_loadbalanced._redis_nodes = []
+    assert mocked_loadbalanced['pattern'] is None
+
+
+def test_aggregated_getitem_method(mocked_aggregated):
+    """Test FlaskMultiRedis aggregated __getitem__ method."""
+
+    assert mocked_aggregated['pattern'] == 'node2'
+    mocked_aggregated._aggregator._redis_nodes = []
+    assert mocked_aggregated['pattern'] is None
