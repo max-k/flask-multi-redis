@@ -25,7 +25,7 @@ LICENSE = "GNU Affero General Public License v3 or later (AGPLv3+)"
 
 setup(
     name='Flask-Multi-Redis',
-    version='0.0.3',
+    version='0.1.0',
     url='https://github.com/max-k/flask-multi-redis',
     author='Thomas Sarboni',
     author_email='max-k@post.com',
@@ -40,7 +40,7 @@ setup(
     install_requires=INSTALL_REQS,
     tests_require=TEST_REQS,
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
         'Framework :: Flask',
         'Intended Audience :: Developers',
