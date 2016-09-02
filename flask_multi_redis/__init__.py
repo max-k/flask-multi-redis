@@ -24,7 +24,7 @@ else:
 
 
 __all__ = ('Aggregator', 'RedisNode', 'FlaskMultiRedis')
-__version__ = '0.1.2'
+__version__ = '0.1.3'
 
 
 class Aggregator(object):
@@ -55,6 +55,8 @@ class Aggregator(object):
         if results != [] or target.__name__ == '_keys':
             if target.__name__ == '_scan_iter':
                 return chain(*results)
+            if target.__name__ == '_delete':
+                return sum([x for x in results if type(x) is int])
             return results
 
     def get(self, pattern):
@@ -85,7 +87,7 @@ class Aggregator(object):
     def delete(self, pattern):
         """Aggregated delete method."""
         def _delete(node, pattern):
-            node.delete(pattern)
+            self._output_queue.put(node.delete(pattern))
         return self._runner(_delete, pattern)
 
     def scan_iter(self, pattern):
