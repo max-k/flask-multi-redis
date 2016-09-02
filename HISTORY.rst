@@ -1,6 +1,11 @@
 History
 =======
 
+0.1.3 (2016-09-02)
+------------------
+
+- Correct an error in aggregated delete method
+
 0.1.2 (2016-09-02)
 ------------------
 
