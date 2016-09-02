@@ -56,7 +56,9 @@ class Aggregator(object):
             if target.__name__ == '_scan_iter':
                 return chain(*results)
             if target.__name__ == '_delete':
-                return sum([x for x in results if type(x) is int])
+                return sum([x for x in results if isinstance(x, int)])
+            if target.__name__ == '_set':
+                return len(set(results)) <= 1
             return results
 
     def get(self, pattern):
@@ -81,7 +83,7 @@ class Aggregator(object):
     def set(self, key, pattern, **kwargs):
         """Aggregated set method."""
         def _set(node, pattern, key=key, **kwargs):
-            node.set(key, pattern, **kwargs)
+            self._output_queue.put(node.set(key, pattern, **kwargs))
         return self._runner(_set, pattern, **kwargs)
 
     def delete(self, pattern):
