@@ -24,7 +24,7 @@ else:
 
 
 __all__ = ('Aggregator', 'RedisNode', 'FlaskMultiRedis')
-__version__ = '0.1.1'
+__version__ = '0.1.2'
 
 
 class Aggregator(object):
@@ -52,7 +52,7 @@ class Aggregator(object):
             item = self._output_queue.get()
             self._output_queue.task_done()
             results.append(item)
-        if results != []:
+        if results != [] or target.__name__ == '_keys':
             if target.__name__ == '_scan_iter':
                 return chain(*results)
             return results

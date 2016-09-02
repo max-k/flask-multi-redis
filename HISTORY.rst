@@ -1,7 +1,13 @@
 History
 =======
 
-0.1.1 (2016-08-26)
+0.1.2 (2016-09-02)
+------------------
+
+- Correct an error in aggregated keys method
+
+0.1.1 (2016-09-02)
+------------------
 
 - Add scan_iter aggregated method
 

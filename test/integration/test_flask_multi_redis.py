@@ -80,6 +80,8 @@ def fake_node():
             return int(self.name[-1])
 
         def keys(self, pattern):
+            if pattern == 'empty':
+                return []
             if int(self.name[-1]) == 3:
                 return [self.name, pattern]
             return [pattern]
@@ -328,6 +330,12 @@ def test_aggregator_keys_method(mocked_aggregated):
     """Test aggregator keys method."""
 
     assert mocked_aggregated.keys('pattern') == ['node3', 'pattern']
+
+
+def test_aggregator_keys_method_with_empty_nodes(mocked_aggregated):
+    """Test aggregator keys method with empty nodes."""
+
+    assert mocked_aggregated.keys('empty') == []
 
 
 def test_aggregator_set_method(mocked_aggregated):
