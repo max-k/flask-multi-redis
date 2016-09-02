@@ -9,6 +9,7 @@ try:
 except ImportError:
     from distutils.core import setup
 
+import flask_multi_redis
 
 with io.open('README.rst', encoding='utf-8') as f:
     README = f.read()
@@ -25,7 +26,7 @@ LICENSE = "GNU Affero General Public License v3 or later (AGPLv3+)"
 
 setup(
     name='Flask-Multi-Redis',
-    version='0.1.3',
+    version=flask_multi_redis.__version__,
     url='https://github.com/max-k/flask-multi-redis',
     author='Thomas Sarboni',
     author_email='max-k@post.com',
