@@ -88,6 +88,7 @@ def fake_node():
 
         def set(self, key, pattern):
             setattr(self, key, pattern)
+            return True
 
         def scan_iter(self, pattern):
             return iter([getattr(self, pattern)])
@@ -341,7 +342,8 @@ def test_aggregator_keys_method_with_empty_nodes(mocked_aggregated):
 def test_aggregator_set_method(mocked_aggregated):
     """Test aggregator set method."""
 
-    mocked_aggregated.set('value', 'pattern')
+    res = mocked_aggregated.set('value', 'pattern')
+    assert res is True
     for node in mocked_aggregated._aggregator._redis_nodes:
         assert node.value == 'pattern'
 
