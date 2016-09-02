@@ -1,6 +1,11 @@
 History
 =======
 
+0.1.4 (2016-09-02)
+------------------
+
+- Correct an error in aggregated put method
+
 0.1.3 (2016-09-02)
 ------------------
 
