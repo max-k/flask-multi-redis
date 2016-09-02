@@ -2,6 +2,7 @@
 
 """Main flask-multi-redis module."""
 
+from itertools import chain
 from random import randint
 from sys import version_info
 from threading import Thread
@@ -23,7 +24,7 @@ else:
 
 
 __all__ = ('Aggregator', 'RedisNode', 'FlaskMultiRedis')
-__version__ = '0.1.0'
+__version__ = '0.1.1'
 
 
 class Aggregator(object):
@@ -52,6 +53,8 @@ class Aggregator(object):
             self._output_queue.task_done()
             results.append(item)
         if results != []:
+            if target.__name__ == '_scan_iter':
+                return chain(*results)
             return results
 
     def get(self, pattern):
@@ -84,6 +87,12 @@ class Aggregator(object):
         def _delete(node, pattern):
             node.delete(pattern)
         return self._runner(_delete, pattern)
+
+    def scan_iter(self, pattern):
+        """Aggregated scan_iter method."""
+        def _scan_iter(node, pattern):
+            self._output_queue.put(node.scan_iter(pattern))
+        return self._runner(_scan_iter, pattern)
 
     def __getattr__(self, name):
         if name in ['_redis_client', 'connection_pool']:

@@ -87,6 +87,9 @@ def fake_node():
         def set(self, key, pattern):
             setattr(self, key, pattern)
 
+        def scan_iter(self, pattern):
+            return iter([getattr(self, pattern)])
+
         def delete(self, pattern):
             delattr(self, 'name')
     return Node
@@ -341,6 +344,15 @@ def test_aggregator_delete_method(mocked_aggregated):
     mocked_aggregated.delete('pattern')
     for node in mocked_aggregated._aggregator._redis_nodes:
         assert not hasattr(node, 'name')
+
+
+def test_aggregator_scan_iter_method(mocked_aggregated):
+    """Test aggregator scan_iter method."""
+
+    for node in mocked_aggregated._aggregator._redis_nodes:
+        node.set('value', 'pattern')
+    results = [x for x in mocked_aggregated.scan_iter('value')]
+    assert results == ['pattern', 'pattern', 'pattern']
 
 
 def test_loadbalanced_getitem_method(mocked_loadbalanced):

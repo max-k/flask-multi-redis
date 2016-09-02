@@ -1,6 +1,10 @@
 History
 =======
 
+0.1.1 (2016-08-26)
+
+- Add scan_iter aggregated method
+
 0.1.0 (2016-08-26)
 ------------------
 
