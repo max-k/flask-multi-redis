@@ -8,10 +8,13 @@ python:
  - 3.5
  - pypy
 install:
- - pip install tox==2.3.1 tox-travis==0.4 coveralls codeclimate-test-reporter
+ - pip install tox==2.3.1 tox-travis==0.4
+ - pip install coveralls codeclimate-test-reporter codacy-coverage codecov>=1.4.0
 script: tox
 after_script:
  - tox -e coverage
  - tox -e static_analysis
+ - codecov -e TOXENV
  - coveralls
  - codeclimate-test-reporter
+ - python-codacy-coverage -r coverage.xml
