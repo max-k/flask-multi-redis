@@ -27,6 +27,14 @@ Flask-Multi-Redis
    :target: https://landscape.io/github/max-k/flask-multi-redis
    :alt: Landscape Code Health
 
+.. image:: https://codeclimate.com/github/max-k/flask-multi-redis/badges/gpa.svg
+   :target: https://codeclimate.com/github/max-k/flask-multi-redis
+   :alt: Code Climate
+
+.. image:: https://codeclimate.com/github/max-k/flask-multi-redis/badges/coverage.svg
+   :target: https://codeclimate.com/github/max-k/flask-multi-redis/coverage
+   :alt: Code Climate Coverage
+
 *PyPI Status*
 
 .. image:: https://img.shields.io/pypi/v/Flask-Multi-Redis.svg
