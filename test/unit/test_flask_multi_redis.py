@@ -11,10 +11,10 @@ def test_redis_import_error():
     """Test that we can load FlaskMultiRedis even if redis module
     is not available."""
 
-    import flask_multi_redis
+    from flask_multi_redis import main
     modules['redis'] = None
-    flask_multi_redis = reload(flask_multi_redis)
-    FlaskMultiRedis = flask_multi_redis.FlaskMultiRedis
+    main = reload(main)
+    FlaskMultiRedis = main.FlaskMultiRedis
 
     f = FlaskMultiRedis()
     assert f.provider_class is None
@@ -23,10 +23,10 @@ def test_redis_import_error():
 def test_constructor_app(mocker):
     """Test that the constructor passes the app to FlaskMultiRedis.init_app."""
 
-    import flask_multi_redis
+    from flask_multi_redis import main
     del(modules['redis'])
-    flask_multi_redis = reload(flask_multi_redis)
-    FlaskMultiRedis = flask_multi_redis.FlaskMultiRedis
+    main = reload(main)
+    FlaskMultiRedis = main.FlaskMultiRedis
 
     mocker.patch.object(FlaskMultiRedis, 'init_app', autospec=True)
     app_stub = mocker.stub(name='app_stub')

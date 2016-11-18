@@ -4,8 +4,8 @@
 """Integration tests for Flask-Multi-Redis."""
 
 import flask
-from flask_multi_redis import Aggregator
-from flask_multi_redis import FlaskMultiRedis
+from flask_multi_redis.aggregator import Aggregator
+from flask_multi_redis.main import FlaskMultiRedis
 import pytest
 from redis import StrictRedis
 
