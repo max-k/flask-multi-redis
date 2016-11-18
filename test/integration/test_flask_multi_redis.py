@@ -58,7 +58,7 @@ def app_custom_node(app):
                                      'port': 16379,
                                      'db': 9,
                                      'password': 'password',
-                                     'timeout': 2,
+                                     'socket_timeout': 2,
                                      'ssl': ssl
                                 }]
     return app
