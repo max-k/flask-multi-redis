@@ -76,17 +76,20 @@ class Aggregator(object):
             self._output_queue.put(node.set(key, pattern, **kwargs))
         return self._runner(_set, pattern, **kwargs)
 
+    def _aggregated_put(self, pattern, method):
+        """Default aggregated put method."""
+        def _aggregated_method(node, pattern, method):
+            _method = getattr(node, method)
+            self._output_queue(_method(pattern))
+        return self._runner(_aggregated_method, pattern, method)
+
     def delete(self, pattern):
         """Aggregated delete method."""
-        def _delete(node, pattern):
-            self._output_queue.put(node.delete(pattern))
-        return self._runner(_delete, pattern)
+        self._aggregated_put(pattern, 'delete')
 
     def scan_iter(self, pattern):
         """Aggregated scan_iter method."""
-        def _scan_iter(node, pattern):
-            self._output_queue.put(node.scan_iter(pattern))
-        return self._runner(_scan_iter, pattern)
+        self._aggregated_put(pattern, 'scan_iter')
 
     def __getattr__(self, name):
         if name in ['_redis_client', 'connection_pool']:
