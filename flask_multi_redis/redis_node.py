@@ -21,19 +21,11 @@ class RedisNode(object):
         assert 'host' in config['node']
 
         self.config['host'] = config['node']['host']
-        self.config['port'] = config['default']['port']
-        self.config['db'] = config['default']['db']
-        self.config['password'] = config['default']['password']
-        self.config['socket_timeout'] = config['default']['socket_timeout']
+        for element in ['port', 'db', 'password', 'socket_timeout']:
+            self.config[element] = config['default'][element]
 
-        if 'port' in config['node']:
-            self.config['port'] = config['node']['port']
-        if 'db' in config['node']:
-            self.config['db'] = config['node']['db']
-        if 'password' in config['node']:
-            self.config['password'] = config['node']['password']
-        if 'timeout' in config['node']:
-            self.config['socket_timeout'] = config['node']['timeout']
+            if element in config['node']:
+                self.config[element] = config['node'][element]
 
     def _parse_ssl_conf(self, config):
         self.config['ssl'] = False
